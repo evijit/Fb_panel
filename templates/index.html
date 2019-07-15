@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.4/d3.layout.cloud.js"></script>
+
+
+<title>Facebook Analyser</title>
+<style>
+body {
+  font-family: Arial;
+  /* color: white; */
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+a{
+    color:#47649F;
+}
+
+.left {
+  left: 0;
+  /* background-color: #111; */
+}
+
+.right {
+  right: 0;
+}
+
+.centered {
+  margin: auto;
+  width: 50%;
+  /* text-align: center; */
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+
+/*-- Content Style --*/
+.post-footer-option li{
+    float:left;
+    margin-right:50px;
+    padding-bottom:15px;
+}
+
+.post-footer-option li a{
+    color:#AFB4BD;
+    font-weight:500;
+    font-size:1.3rem;
+}
+
+.photo-profile{
+    border:1px solid #DDD;    
+}
+
+.anchor-username h4{
+    font-weight:bold;    
+}
+
+.anchor-time{
+    color:#ADB2BB;
+    font-size:1.2rem;
+}
+
+.post-footer-comment-wrapper{
+    background-color:#F6F7F8;
+}
+</style>
+</head>
+<body>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=1685769038375532&autoLogAppEvents=1"></script>
+
+<div class="split left">
+
+<div class="centered">
+
+<h2>The New York Times</h2>
+<p>Last {{lim}} posts</p>
+
+{%for url in urls%} 
+<div class="fb-post" style = "margin:5mm" data-href="{{url}}" data-width="400" data-show-text="true"></div>
+
+{%endfor%} 
+
+
+</div>
+
+</div>
+
+<div class="split right" id="spr">
+  <div class="centered">
+
+	<h2>Analysis</h2>
+
+	<div id="pie" d3pie="0.2.1" style="margin: auto; text-align: center;">
+			<script>
+			  var data = {{ graph_values|safe }};
+			  layout = {{ layout|safe }};
+			  Plotly.newPlot('pie', data, layout);
+			</script>
+	</div>
+
+	
+	<div style="margin-top: -1cm">
+			<script>
+			  var word_freqs = {{ word_freqs|safe }};
+			  max_freq = {{ max_freq }};
+			  fill = d3.scale.category20();
+			  layout = d3.layout.cloud()
+				  .size([1000, 500])
+				  .words(word_freqs)
+				  .padding(5)
+				  .rotate(0)
+				  .font("Impact")
+				  .fontSize(function(d) {
+					 return (d.size/max_freq)*100;
+				  })
+				  .on("end", draw);
+			  layout.start();
+			  function draw(words) {
+				d3.select("#spr").append("svg")
+				  .attr("width", layout.size()[0])
+				  .attr("height", layout.size()[1])
+				  .attr("style", "display: block; margin-left: 5mm; margin-right: auto; text-align: center;")
+				  .append("g")
+				  .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+				  .selectAll("text")
+				  .data(words)
+				  .enter().append("text")
+				  .style("font-size", function(d) { return d.size + "px"; })
+				  .style("font-family", "Impact")
+				  .style("fill", function(d, i) { return fill(i); })
+				  .attr("text-anchor", "middle")
+				  .attr("transform", function(d) {
+					return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+				  })
+				  .text(function(d) { return d.text; });
+			  }
+			</script>
+			</div>
+
+	<!-- <script type="text/javascript">
+         
+        var graphs = {{graphJSON | safe}};
+        
+        Plotly.newPlot('chart',graphs,{});
+ 
+	</script> -->
+	</div>
+</div>
+
+</body>
+</html> 
+

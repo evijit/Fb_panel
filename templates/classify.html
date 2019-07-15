@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tweet Analyser</title>
+<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- Custom Theme files -->
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+</head>
+<body>
+
+<h1>Classify Tweets</h1>
+
+
+<div class="upload">
+
+
+<h5><font color="white">In disaster scenario broadly two kinds of tweets are posted: 1. Tweets which provide update about infrastructure, missing or injured persons, victims, shelter and requirements 2. Personal opinion, event analysis, donation and charity etc. We have developed a classifier which can predict the class of a tweet as situational or non-situational. Upload a file containing one tweet per line, our system will provide class of each tweet. Try it and have fun !!<br><br><br><br></font></h5>
+
+
+			<h3>Select File</h3>
+		<div class="login-form">
+
+			<form id="upload" action="uploaderclassify" method = "POST"  enctype="multipart/form-data">
+				<div id="drop">
+					<a>Choose</a>
+					<input type = "file" name = "file" />
+				</div>
+				<div>
+	         		<input type = "submit" value="Upload"/>
+				</div>
+
+
+				<ul>
+				<!-- The file uploads will be shown here -->
+				</ul>
+
+			</form>
+		</div>
+
+	<!-- JavaScript Includes -->
+		<script src="/static/js/jquery.knob.js"></script>
+	<!-- JavaScript Includes -->
+
+	<!-- jQuery File Upload Dependencies -->
+		<script src="/static/js/jquery.ui.widget.js"></script>
+		<script src="/static/js/jquery.iframe-transport.js"></script>
+		<script src="/static/js/jquery.fileupload.js"></script>
+	<!-- jQuery File Upload Dependencies -->
+
+	<!-- Main JavaScript file -->
+		<script src="/static/js/script.js"></script>
+	<!-- Main JavaScript file -->
+
+</div>
+
+<div class="footer">
+     <!-- <p>Copyright &copy; 2015 File Upload Widget. All Rights Reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p> -->
+</div>
+
+</body>
+</html>
